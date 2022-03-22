@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>View Logs</title>
+  </head>
+  <style>
+     .heading{
+        margin-top: 15px;
+        margin-left: 20px;
+      }
+    .logout {
+      position: fixed;
+      right: 20px;
+      top: 10px;
+      padding: 5px 5px;
+      border-radius: 5px;
+    }
+    .icon {
+      margin-left: 10px;
+      margin-top: 2px;
+    }
+    .center {
+      display: flex;
+      justify-content: center;
+      margin-top: 100px;
+    }
+    .margin{
+      margin: auto;
+    }
+    .back{
+      margin-left: 650px;
+      margin-top: 30px;
+    }
+  </style>
+  <body style="background-color: bisque;">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <h1 class="heading">Hello {{name}}</h1>
+
+    <a href="{{url_for('logout')}}" class="btn btn-dark logout"
+    >Logout<ion-icon name="log-out-outline" class="icon"></ion-icon
+  ></a>
+    <div class="center">
+      <div class="child">
+      
+    <h2>{{tracker_details["name"]}}-tracker</h2>
+    <br>
+    {% if tracker_details["TrackerType"]=="numerical" %}
+    <img src="/static/images/numerical_graph_{{tracker_details["T_ID"]}}.png">
+    {% else %}
+    <img src="/static/images/multiple_graph_{{tracker_details["T_ID"]}}.png">
+    {% endif %}
+    <br />
+    <br />
+    <br />
+  </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="card-header margin">
+      Logs
+    </div>
+    <div class="card-body">
+    <!-- <h1>Logs</h1> -->
+    <table class="table table-dark table-hover table-bordered">
+      <thead>
+      <tr>
+        <th>Time</th>
+        <th>Value</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+      {% for i in log_details %}
+      <tr>
+        <td>{{i["time"]}}</td>
+        <td>{{i["value"]}}</td>
+        <td>{{i["notes"]}}</td>
+        <!-- <td>{{i["data_id"]}}</td> -->
+        <td>
+          <a href="/updateLog/{{tracker_details["T_ID"]}}/{{i["data_id"]}}" class="btn btn-primary badge-pill">Edit</a>
+          <a href="/deleteLog/{{log_details_delete["data_id"]}}" class="btn btn-danger badge-pill">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+    </div>
+    </div>
+    <a href="/dashboard/{{tracker_details["uid"]}}" class="btn btn-success back">Back to Dashboard</a>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
