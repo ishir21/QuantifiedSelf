@@ -74,6 +74,7 @@
         <th>Value</th>
         <th>Notes</th>
         <th>Actions</th>
+        <th>Data ID</th>
       </tr>
     </thead>
       {% for i in log_details %}
@@ -81,11 +82,13 @@
         <td>{{i["time"]}}</td>
         <td>{{i["value"]}}</td>
         <td>{{i["notes"]}}</td>
+      
         <!-- <td>{{i["data_id"]}}</td> -->
         <td>
           <a href="/updateLog/{{tracker_details["T_ID"]}}/{{i["data_id"]}}" class="btn btn-primary badge-pill">Edit</a>
           <a href="/deleteLog/{{log_details_delete["data_id"]}}" class="btn btn-danger badge-pill">Delete</a>
         </td>
+        <td>{{i["data_id"]}}</td>
       </tr>
       {% endfor %}
     </table>
