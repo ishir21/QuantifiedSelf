@@ -10,13 +10,16 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 import matplotlib
 import matplotlib.pyplot as plt
+import os
 
-
+file_path = "final_project.sqlite3"
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///final_project.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+file_path
+# app.config['SQLALCHEMY_DATABASE_URI'] = '/instance/final_project.sqlite3'
 app.config['SECRET_KEY'] = 'ishir21'
 db = SQLAlchemy()
 db.init_app(app)
+
 bcrypt = Bcrypt(app)
 app.app_context().push()
 
@@ -69,6 +72,8 @@ class RegisterForm(FlaskForm):
   #     flash("The email entered already exists. Please choose a different one.")
 
         
+app.app_context().push()
+db.create_all()
 
 class LoginForm(FlaskForm):
   
@@ -77,6 +82,10 @@ class LoginForm(FlaskForm):
   password = PasswordField(validators=[InputRequired(),Length(min=4,max=10)],render_kw={"placeholder":"Password"})
 
   submit = SubmitField("Login")
+  
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -325,4 +334,6 @@ def multi_graph(t_id,logs):
 
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  # if not os.path.exists('db.sqlite'):
+  #       db.create_all()
+  app.run(debug=False)
